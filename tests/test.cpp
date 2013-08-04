@@ -15,10 +15,16 @@
 TEST( SingleVoxelVol, XYZtoYZX )
 {
     auto volumeXYZ(makeVolume(VolumeSize(1,1,1), IndexOrderXYZ()));
+    auto volumeUniTypeXYZ(makeVolume(VolumeSize(1,1,1), IndexOrder<3>({{2,1,0}})));
     auto volumeYZX(makeVolume(VolumeSize(1,1,1), IndexOrderYZX()));
 
     ASSERT_EQ(1, volumeXYZ.size().rawSize());
+    ASSERT_EQ(1, volumeUniTypeXYZ.size().rawSize());
     ASSERT_EQ(1, volumeYZX.size().rawSize());
+
+    volumeUniTypeXYZ[VolumeIndex(0,0,0)] = 1;
+    volumeYZX.shuffleCopy(volumeUniTypeXYZ);
+    EXPECT_EQ(1, volumeYZX[VolumeIndex(0,0,0)]);
 
     volumeXYZ[VolumeIndex(0,0,0)] = 1;
     volumeYZX.shuffleCopy(volumeXYZ);
@@ -29,6 +35,22 @@ TEST( singleColumnVol, XYZtoYZX )
 {
     auto volumeXYZ(makeVolume(VolumeSize(1,1,3), IndexOrderXYZ()));
     auto volumeYZX(makeVolume(VolumeSize(1,1,3), IndexOrderYZX()));
+
+    volumeXYZ[VolumeIndex(0,0,0)] = 1;
+    volumeXYZ[VolumeIndex(0,0,1)] = 2;
+    volumeXYZ[VolumeIndex(0,0,2)] = 3;
+
+    volumeYZX.shuffleCopy(volumeXYZ);
+
+    EXPECT_EQ(1, volumeXYZ[VolumeIndex(0,0,0)]);
+    EXPECT_EQ(2, volumeXYZ[VolumeIndex(0,0,1)]);
+    EXPECT_EQ(3, volumeXYZ[VolumeIndex(0,0,2)]);
+}
+
+TEST( singleColumnVol, XYZtoYZX_GenIndexer )
+{
+    auto volumeXYZ(makeVolume(VolumeSize(1,1,3), IndexOrder<3>({{2,1,0}})));
+    auto volumeYZX(makeVolume(VolumeSize(1,1,3), IndexOrder<3>({{1,0,2}})));
 
     volumeXYZ[VolumeIndex(0,0,0)] = 1;
     volumeXYZ[VolumeIndex(0,0,1)] = 2;

@@ -20,20 +20,21 @@ class Volume
 public:
     typedef std::vector<int> RawDataType;
 
-    Volume(const VolumeSize &size)
+    Volume(const VolumeSize &size, const IndexOrder &indexer)
         :
+        m_indexer(indexer),
         m_size(size),
         m_data(size.rawSize())
     {}
 
-    int operator [] (const VolumeIndex &index) const
+    const int &operator [] (const VolumeIndex &index) const
     {
-        return m_data[IndexOrder::toRaw(m_size, index)];
+        return m_data[m_indexer.toRaw(m_size, index)];
     }
 
     int &operator [] (const VolumeIndex &index)
     {
-        return m_data[IndexOrder::toRaw(m_size, index)];
+        return m_data[m_indexer.toRaw(m_size, index)];
     }
 
     template <typename SrcIndexOrder>
@@ -59,14 +60,15 @@ public:
     }
 
 private:
+    IndexOrder m_indexer;
     VolumeSize m_size;
     RawDataType m_data;
 };
 
 template<typename IndexOrder>
-Volume<IndexOrder> makeVolume(VolumeSize size, IndexOrder)
+Volume<IndexOrder> makeVolume(const VolumeSize &size, const IndexOrder &indexer)
 {
-    return Volume<IndexOrder>(size);
+    return Volume<IndexOrder>(size, indexer);
 }
 
 

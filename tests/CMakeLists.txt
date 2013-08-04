@@ -1,4 +1,4 @@
-add_executable (test AllTests.cpp VolumeIndexing.cpp  VolumeSize.cpp test.cpp gtest/gtest-all.cc)
+add_executable (test AllTests.cpp speedTest.cpp VolumeIndexing.cpp  VolumeSize.cpp test.cpp gtest/gtest-all.cc)
 include_directories(../include)
 
 find_package (Threads)

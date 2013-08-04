@@ -46,8 +46,22 @@ public:
     {}
 
     size_t toRaw(
-            std::array<size_t, Dim> size,
-            std::array<size_t, Dim> index) const
+        const std::array<size_t, Dim> &size,
+        const std::array<size_t, Dim> &index) const
+    {
+        return toRawPT(size, index);
+    }
+
+    size_t toRaw(
+        const VolumeSize &size,
+        const VolumeIndex &index) const
+    {
+        return toRawPT(size, index);
+    }
+
+private:
+    template<typename SizeT, typename IndexType>
+    size_t toRawPT(const SizeT &size, const IndexType &index) const
     {
         size_t d(Dim-1);
         size_t result(index[m_order[d]]);
@@ -60,7 +74,7 @@ public:
         }
         return result;
     }
-private:
+
     std::array<size_t, Dim> m_order;
 };
 
