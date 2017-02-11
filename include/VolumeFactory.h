@@ -14,12 +14,10 @@
 
 #include <vector>
 
-template <typename IndexOrder>
+template <typename IndexOrder, typename RawDataType = std::vector<int>>
 class Volume
 {
 public:
-    typedef std::vector<int> RawDataType;
-
     Volume(const VolumeSize &size, const IndexOrder &indexer)
         :
         m_indexer(indexer),

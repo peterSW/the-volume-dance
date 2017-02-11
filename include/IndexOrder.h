@@ -14,6 +14,7 @@
 class IndexOrderXYZ
 {
 public:
+    static const size_t dim = 3;
     static size_t toRaw(
             const VolumeSize &volSize,
             const VolumeIndex &index)
@@ -27,6 +28,7 @@ public:
 class IndexOrderYZX
 {
 public:
+    static const size_t dim = 3;
     static size_t toRaw(
                 const VolumeSize &volSize,
                 const VolumeIndex &index)
@@ -41,6 +43,8 @@ template<size_t Dim>
 class IndexOrder
 {
 public:
+    static const size_t dim = Dim;
+
     IndexOrder(std::array<size_t, Dim> order)
     : m_order(order)
     {}
@@ -66,11 +70,20 @@ private:
         size_t d(Dim-1);
         size_t result(index[m_order[d]]);
         size_t dimStride(1);
+
+        std::array<size_t, Dim> strides;
+
         while(d > 0)
         {
             dimStride *= size[m_order[d]];
+            strides[d] = dimStride;
             --d;
-            result += index[m_order[d]] * dimStride;
+        }
+
+        while(d > 0)
+        {
+            result += index[m_order[d]] * strides[d];
+            --d;
         }
         return result;
     }
