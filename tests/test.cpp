@@ -15,7 +15,7 @@
 TEST( SingleVoxelVol, XYZtoYZX )
 {
     auto volumeXYZ(makeVolume(VolumeSize(1,1,1), IndexOrderXYZ()));
-    auto volumeUniTypeXYZ(makeVolume(VolumeSize(1,1,1), IndexOrder<3>({{2,1,0}})));
+    auto volumeUniTypeXYZ(makeVolume(VolumeSize(1,1,1), IndexOrder<3>{{2,1,0}}));
     auto volumeYZX(makeVolume(VolumeSize(1,1,1), IndexOrderYZX()));
 
     ASSERT_EQ(1, volumeXYZ.size().rawSize());
@@ -49,8 +49,8 @@ TEST( singleColumnVol, XYZtoYZX )
 
 TEST( singleColumnVol, XYZtoYZX_GenIndexer )
 {
-    auto volumeXYZ(makeVolume(VolumeSize(1,1,3), IndexOrder<3>({{2,1,0}})));
-    auto volumeYZX(makeVolume(VolumeSize(1,1,3), IndexOrder<3>({{1,0,2}})));
+    auto volumeXYZ(makeVolume(VolumeSize(1,1,3), IndexOrder<3>{{2,1,0}}));
+    auto volumeYZX(makeVolume(VolumeSize(1,1,3), IndexOrder<3>{{1,0,2}}));
 
     volumeXYZ[VolumeIndex(0,0,0)] = 1;
     volumeXYZ[VolumeIndex(0,0,1)] = 2;

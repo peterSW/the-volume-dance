@@ -81,3 +81,18 @@ TEST( GeneralIndexOrder, Dim2 )
     index[1] = 7;
     EXPECT_EQ(7+3*5, xIndexOrder.toRaw(size,index));
 }
+
+TEST( SizedIndexOrder, Dim2)
+{
+    std::array<size_t, 2> order;
+    order[0] = 0;
+    order[1] = 1;
+    std::array<size_t, 2> size;
+    size[0] = 10;
+    size[1] = 5;
+    SizedIndexOrder<2> indexOrder(order, size);
+    std::array<size_t, 2> index;
+    index[0] = 3;
+    index[1] = 7;
+    EXPECT_EQ(7+3*5, indexOrder.toRaw(size,index));
+}
